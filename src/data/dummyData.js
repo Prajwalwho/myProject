@@ -1,19 +1,39 @@
-export const products=[
-    {
+export const products = [
+  {
     id: 1,
     name: "Floral Wrap Dress",
     brand: "Libas",
     price: 899,
     oldPrice: 1499,
     platform: "Myntra",
-    emoji: "👗"
-},
-{
+    image: "https://picsum.photos/300",
+    collection: "Fashion",
+  },
+  {
     id: 2,
     name: "Noice Buds VS104",
     brand: "Noice",
     price: 1299,
     platform: "Amazon",
-    emoji: "🎧"
-}
+   image: "https://picsum.photos/300",
+    collection: "Tech",
+  },
+  {
+    id: 3,
+    name: "iphone 17 pro max",
+    brand: "Apple",
+    price: 14299,
+    platform: "Amazon",
+    emoji: "📱",
+    collection: "Tech",
+  },
+  {
+    id: 4,
+    name: "T-shirt",
+    brand: "Rare Rabbit",
+    price: 1149,
+    platform: "Myntra",
+    emoji: "👕",
+    collection: "Fashion",
+  },
 ];

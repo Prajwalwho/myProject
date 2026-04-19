@@ -1,9 +1,12 @@
-export default function CollectionCard({ title, count, emoji }) {
+export default function CollectionCard({ title, count, emoji, isActive }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border p-4 w-44">
+    <div
+      className={`rounded-2xl border p-4 min-w-[180px] ${isActive ? "bg-black text-white" : "bg-white"
+        }`}
+    >
       <div className="text-4xl mb-3">{emoji}</div>
       <h3 className="font-semibold text-lg">{title}</h3>
-      <p className="text-gray-500 text-sm">{count} items</p>
+      <p className="text-sm opacity-70">{count} items</p>
     </div>
   );
 }

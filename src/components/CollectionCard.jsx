@@ -1,12 +1,16 @@
 export default function CollectionCard({ title, count, emoji, isActive }) {
   return (
     <div
-      className={`rounded-2xl border p-4 min-w-[180px] ${isActive ? "bg-black text-white" : "bg-white"
+      className={`flex flex-col items-start rounded-2xl border p-3 min-w-[110px] max-w-[110px] transition-all duration-200 ${isActive
+          ? "bg-black text-white border-black"
+          : "bg-white text-gray-800 border-gray-200 hover:border-gray-400"
         }`}
     >
-      <div className="text-4xl mb-3">{emoji}</div>
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <p className="text-sm opacity-70">{count} items</p>
+      <span className="text-2xl mb-2">{emoji}</span>
+      <p className="text-xs font-semibold line-clamp-1 w-full">{title}</p>
+      <p className={`text-xs mt-0.5 ${isActive ? "text-gray-300" : "text-gray-400"}`}>
+        {count} items
+      </p>
     </div>
   );
 }

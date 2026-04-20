@@ -20,7 +20,11 @@ export default function ProductCard({
 
     const handleClick = () => {
         if (isSelectMode) return;
-        if (product.url) window.open(product.url, "_blank");
+        if (product.url) {
+            window.open(product.url, "_blank");
+        } else {
+            alert("No link saved for this item. Edit it to add a URL.");
+        }
     };
 
     return (

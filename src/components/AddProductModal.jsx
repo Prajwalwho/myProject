@@ -15,7 +15,9 @@ function detectPlatform(url) {
     for (const [key, value] of Object.entries(PLATFORM_DOMAINS)) {
       if (hostname.includes(key)) return value;
     }
-  } catch { return "Custom"; }
+  } catch {
+    return "Custom";
+  }
   return "Custom";
 }
 
@@ -32,13 +34,11 @@ export default function AddProductModal({ isOpen, onClose, onSave, collections =
 
   const handleUrlChange = (val) => {
     setUrl(val);
-    const detected = detectPlatform(val);
-    setPlatform(detected);
+    setPlatform(detectPlatform(val));
   };
 
   const handleSave = () => {
     if (!name || !brand || !price) return;
-
     const newProduct = {
       id: Date.now(),
       name,
@@ -50,139 +50,144 @@ export default function AddProductModal({ isOpen, onClose, onSave, collections =
       url: url || null,
       emoji: "🛍️",
     };
-
     onSave(newProduct);
-    setName("");
-    setBrand("");
-    setPrice("");
-    setOldPrice("");
-    setPlatform("Custom");
-    setCollection("");
-    setUrl("");
+    setName(""); setBrand(""); setPrice("");
+    setOldPrice(""); setPlatform("Custom");
+    setCollection(""); setUrl("");
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50">
-      <div className="bg-white rounded-t-3xl p-6 w-full max-w-[430px] shadow-xl">
+    <div style={{
+      position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      zIndex: 9999, padding: "16px"
+    }}>
+      <div style={{
+        backgroundColor: "white", borderRadius: "24px",
+        width: "100%", maxWidth: "430px",
+        display: "flex", flexDirection: "column",
+        maxHeight: "85vh"
+      }}>
 
-        {/* Handle */}
-        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
-
-        <h2
-          className="text-2xl font-semibold mb-5"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
-          Add Product
-        </h2>
-
-        {/* URL — auto detects platform */}
-        <div className="mb-3">
-          <label className="text-xs text-gray-400 mb-1 block">Product URL (optional)</label>
-          <input
-            type="text"
-            placeholder="Paste link from Myntra, Amazon..."
-            value={url}
-            onChange={(e) => handleUrlChange(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-orange-200"
-          />
+        {/* Header */}
+        <div style={{ padding: "24px 24px 16px", flexShrink: 0 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "20px", fontWeight: 600 }}>
+              Add Product
+            </h2>
+            <button onClick={onClose} style={{ fontSize: "24px", color: "#9ca3af", lineHeight: 1, background: "none", border: "none", cursor: "pointer" }}>
+              ×
+            </button>
+          </div>
         </div>
 
-        {/* Name */}
-        <div className="mb-3">
-          <label className="text-xs text-gray-400 mb-1 block">Product Name *</label>
-          <input
-            type="text"
-            placeholder="e.g. Floral Wrap Dress"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-orange-200"
-          />
-        </div>
+        {/* Scrollable body */}
+        <div style={{ overflowY: "auto", padding: "0 24px 24px", flex: 1 }}>
 
-        {/* Brand */}
-        <div className="mb-3">
-          <label className="text-xs text-gray-400 mb-1 block">Brand *</label>
-          <input
-            type="text"
-            placeholder="e.g. Libas"
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-orange-200"
-          />
-        </div>
-
-        {/* Price + Old Price side by side */}
-        <div className="flex gap-3 mb-3">
-          <div className="flex-1">
-            <label className="text-xs text-gray-400 mb-1 block">Price (₹) *</label>
+          <div style={{ marginBottom: "12px" }}>
+            <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Product URL (optional)</label>
             <input
-              type="number"
-              placeholder="899"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-orange-200"
+              type="text"
+              placeholder="Paste link from Myntra, Amazon..."
+              value={url}
+              onChange={(e) => handleUrlChange(e.target.value)}
+              style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", boxSizing: "border-box" }}
             />
           </div>
-          <div className="flex-1">
-            <label className="text-xs text-gray-400 mb-1 block">Original Price (₹)</label>
+
+          <div style={{ marginBottom: "12px" }}>
+            <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Product Name *</label>
             <input
-              type="number"
-              placeholder="1499"
-              value={oldPrice}
-              onChange={(e) => setOldPrice(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-orange-200"
+              type="text"
+              placeholder="e.g. Floral Wrap Dress"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", boxSizing: "border-box" }}
             />
           </div>
-        </div>
 
-        {/* Platform + Collection side by side */}
-        <div className="flex gap-3 mb-5">
-          <div className="flex-1">
-            <label className="text-xs text-gray-400 mb-1 block">Platform</label>
-            <select
-              value={platform}
-              onChange={(e) => setPlatform(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none bg-white"
-            >
-              {PLATFORMS.map((p) => (
-                <option key={p} value={p}>{p}</option>
-              ))}
-            </select>
+          <div style={{ marginBottom: "12px" }}>
+            <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Brand *</label>
+            <input
+              type="text"
+              placeholder="e.g. Libas"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", boxSizing: "border-box" }}
+            />
           </div>
-          <div className="flex-1">
-            <label className="text-xs text-gray-400 mb-1 block">Collection</label>
-            <select
-              value={collection}
-              onChange={(e) => setCollection(e.target.value)}
-              className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none bg-white"
-            >
-              <option value="">None</option>
-              {collections.map((c) => (
-                <option key={c.id} value={c.title}>{c.title}</option>
-              ))}
-            </select>
+
+          <div style={{ display: "flex", gap: "12px", marginBottom: "12px" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Price (₹) *</label>
+              <input
+                type="number"
+                placeholder="899"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", boxSizing: "border-box" }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Original Price (₹)</label>
+              <input
+                type="number"
+                placeholder="1499"
+                value={oldPrice}
+                onChange={(e) => setOldPrice(e.target.value)}
+                style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", boxSizing: "border-box" }}
+              />
+            </div>
           </div>
-        </div>
 
-        {/* Buttons */}
-        <div className="flex gap-3">
-          <button
-            onClick={handleSave}
-            disabled={!name || !brand || !price}
-            className="flex-1 py-3 rounded-xl text-white font-medium text-sm disabled:opacity-40 transition"
-            style={{ backgroundColor: "#c45c3a" }}
-          >
-            Save Product
-          </button>
-          <button
-            onClick={onClose}
-            className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm"
-          >
-            Cancel
-          </button>
-        </div>
+          <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Platform</label>
+              <select
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value)}
+                style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", backgroundColor: "white", boxSizing: "border-box" }}
+              >
+                {PLATFORMS.map((p) => <option key={p} value={p}>{p}</option>)}
+              </select>
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "11px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Collection</label>
+              <select
+                value={collection}
+                onChange={(e) => setCollection(e.target.value)}
+                style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "12px", fontSize: "13px", outline: "none", backgroundColor: "white", boxSizing: "border-box" }}
+              >
+                <option value="">None</option>
+                {collections.map((c) => <option key={c.id} value={c.title}>{c.title}</option>)}
+              </select>
+            </div>
+          </div>
 
+          <div style={{ display: "flex", gap: "12px" }}>
+            <button
+              onClick={handleSave}
+              disabled={!name || !brand || !price}
+              style={{
+                flex: 1, padding: "14px", borderRadius: "12px",
+                backgroundColor: !name || !brand || !price ? "#e5e7eb" : "#c45c3a",
+                color: !name || !brand || !price ? "#9ca3af" : "white",
+                border: "none", fontSize: "14px", fontWeight: 500, cursor: !name || !brand || !price ? "not-allowed" : "pointer"
+              }}
+            >
+              Save Product
+            </button>
+            <button
+              onClick={onClose}
+              style={{ flex: 1, padding: "14px", borderRadius: "12px", border: "1px solid #e5e7eb", backgroundColor: "white", fontSize: "14px", color: "#6b7280", cursor: "pointer" }}
+            >
+              Cancel
+            </button>
+          </div>
+
+        </div>
       </div>
     </div>
   );

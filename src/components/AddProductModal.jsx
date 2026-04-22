@@ -53,7 +53,7 @@ export default function AddProductModal({ isOpen, onClose, onSave, collections =
 
     setIsLoading(true);
     try {
-      const res = await fetch(`http://localhost:3001/api/scrape?url=${encodeURIComponent(val)}`);
+      const res = await fetch(`https://myproject-production-c900.up.railway.app/api/scrape?url=${encodeURIComponent(val)}`);
       const data = await res.json();
 
       if (data.name) {

@@ -16,6 +16,22 @@ export default function ProductCard({
         Custom: { bg: "#f0fdf4", text: "#166534" },
     };
 
+    const platformBg = {
+        Myntra: "#fce7f3",
+        Amazon: "#fff7ed",
+        Flipkart: "#eff6ff",
+        Meesho: "#f5f3ff",
+        Custom: "#f0fdf4",
+    };
+
+    const platformEmoji = {
+        Myntra: "👗",
+        Amazon: "📦",
+        Flipkart: "🛒",
+        Meesho: "🛍️",
+        Custom: "📦",
+    };
+
     const platformStyle = platformColors[product.platform] || platformColors.Custom;
 
     const handleClick = () => {
@@ -33,6 +49,7 @@ export default function ProductCard({
             className={`relative bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow duration-200 ${product.url ? "cursor-pointer hover:shadow-md" : "cursor-default"
                 }`}
         >
+            {/* Checkbox */}
             {isSelectMode && (
                 <input
                     type="checkbox"
@@ -49,6 +66,7 @@ export default function ProductCard({
                 />
             )}
 
+            {/* Platform badge */}
             {!isSelectMode && (
                 <div
                     className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-semibold z-10"
@@ -58,13 +76,18 @@ export default function ProductCard({
                 </div>
             )}
 
+            {/* Discount badge */}
             {discount && (
                 <div className="absolute top-2 right-2 bg-green-100 text-green-700 text-[10px] font-semibold px-2 py-0.5 rounded-full z-10">
                     {discount}% off
                 </div>
             )}
 
-            <div className="h-40 bg-gray-50 flex items-center justify-center overflow-hidden relative">
+            {/* Image area — always uses platform bg color */}
+            <div
+                className="h-40 flex items-center justify-center overflow-hidden relative"
+                style={{ backgroundColor: platformBg[product.platform] || "#f9fafb" }}
+            >
                 {product.image ? (
                     <img
                         src={product.image}
@@ -72,22 +95,23 @@ export default function ProductCard({
                         className="h-full w-full object-cover"
                         onError={(e) => {
                             e.target.style.display = "none";
-                            e.target.nextSibling.style.display = "flex";
                         }}
                     />
-                ) : null}
-                <div
-                    className="h-full w-full items-center justify-center text-5xl"
-                    style={{ display: product.image ? "none" : "flex" }}
-                >
-                    {product.emoji || "📦"}
-                </div>
-
+                ) : (
+                    <span className="text-5xl">
+                        {product.emoji || platformEmoji[product.platform] || "📦"}
+                    </span>
+                )}
             </div>
 
+            {/* Content */}
             <div className="p-3">
-                <h3 className="text-sm font-semibold line-clamp-1 text-gray-900">{product.name}</h3>
-                <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{product.brand}</p>
+                <h3 className="text-sm font-semibold line-clamp-1 text-gray-900">
+                    {product.name}
+                </h3>
+                <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">
+                    {product.brand}
+                </p>
                 <div className="flex items-center gap-2 mt-2">
                     <span className="text-base font-bold text-gray-900">
                         ₹{product.price.toLocaleString("en-IN")}
@@ -101,4 +125,4 @@ export default function ProductCard({
             </div>
         </div>
     );
-}
+}         

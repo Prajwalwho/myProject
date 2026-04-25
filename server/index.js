@@ -86,7 +86,7 @@ app.get("/api/scrape", async (req, res) => {
     const scraperUrl = `http://api.scraperapi.com?api_key=03ded49ce0f6fcee3e6f1b8b4a1469a4&url=${encodeURIComponent(url)}&render=false`;
 
     const response = await axios.get(scraperUrl, {
-      timeout: 15000,
+      timeout: 20000,
     });
 
     const $ = cheerio.load(response.data);
@@ -99,6 +99,10 @@ app.get("/api/scrape", async (req, res) => {
     // Then try platform-specific selectors
     if (!price) {
       const priceSelectors = [
+        "._30jeq3._16Jk6d", // Flipkart price
+        ".CEmiEU", // Flipkart new
+        "._1_WHN1", // Flipkart
+        ".dHK9lv", // Flipkart
         ".pdp-price strong", // Myntra current price
         ".pdp-price", // Myntra fallback
         ".pdp-mrp strong", // Myntra MRP
@@ -166,6 +170,7 @@ app.get("/api/scrape", async (req, res) => {
 
     return res.json(result);
   } catch (err) {
+    console.error("Scrape error:", err.message);
     const platform = detectPlatform(url);
     return res.json({
       name: "",

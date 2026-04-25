@@ -83,8 +83,7 @@ app.get("/api/scrape", async (req, res) => {
   }
 
   try {
-    const scraperUrl = `http://api.scraperapi.com?api_key=03ded49ce0f6fcee3e6f1b8b4a1469a4&url=${encodeURIComponent(url)}&render=false`;
-
+    const scraperUrl = `http://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${encodeURIComponent(url)}&render=false`;
     const response = await axios.get(scraperUrl, {
       timeout: 20000,
     });

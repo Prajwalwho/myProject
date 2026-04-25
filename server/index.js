@@ -83,18 +83,10 @@ app.get("/api/scrape", async (req, res) => {
   }
 
   try {
-    const response = await axios.get(url, {
-      timeout: 8000,
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-IN,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Cache-Control": "no-cache",
-      },
-      maxRedirects: 5,
+    const scraperUrl = `http://api.scraperapi.com?api_key=03ded49ce0f6fcee3e6f1b8b4a1469a4&url=${encodeURIComponent(url)}&render=false`;
+
+    const response = await axios.get(scraperUrl, {
+      timeout: 15000,
     });
 
     const $ = cheerio.load(response.data);

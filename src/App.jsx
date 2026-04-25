@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import BottomNav from "./components/BottomNav";
 import Collections from "./pages/Collections";
 import ShareTarget from "./pages/ShareTarget";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/share-target" element={<ShareTarget />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <BottomNav />
     </div>
